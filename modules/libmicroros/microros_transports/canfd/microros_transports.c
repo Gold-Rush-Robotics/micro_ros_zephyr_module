@@ -7,14 +7,14 @@
 #include <zephyr/kernel.h>
 #include <zephyr/device.h>
 #include <zephyr/sys/printk.h>
-// #include <zephyr/drivers/uart.h>
+#include <zephyr/drivers/uart.h>
 #include <zephyr/sys/ring_buffer.h>
 #include <zephyr/posix/unistd.h>
 #else
 #include <zephyr.h>
 #include <device.h>
 #include <sys/printk.h>
-// #include <drivers/uart.h>
+#include <drivers/uart.h>
 #include <sys/ring_buffer.h>
 #include <posix/unistd.h>
 #endif
