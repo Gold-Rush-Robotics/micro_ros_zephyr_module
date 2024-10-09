@@ -76,12 +76,8 @@ endforeach()
 
 # micro-ROS transport library
 
-if(CONFIG_MICROROS_TRANSPORT_SERIAL)
-    set(MICROROS_TRANSPORT_DIR ${MICROROS_DIR}/microros_transports/serial)
-elseif(CONFIG_MICROROS_TRANSPORT_SERIAL_USB)
-    set(MICROROS_TRANSPORT_DIR ${MICROROS_DIR}/microros_transports/serial-usb)
-elseif(CONFIG_MICROROS_TRANSPORT_UDP)
-    set(MICROROS_TRANSPORT_DIR ${MICROROS_DIR}/microros_transports/udp)
+if(CONFIG_MICROROS_TRANSPORT_CANFD)
+    set(MICROROS_TRANSPORT_DIR ${MICROROS_DIR}/microros_transports/canfd)
 else()
     message(FATAL_ERROR Please set a micro-ROS transport)
 endif()

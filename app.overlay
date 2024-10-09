@@ -1,8 +1,7 @@
-&usdhc1  {
-	cdc_acm_uart0: cdc_acm_uart0 {
-		compatible = "zephyr,cdc-acm-uart";   
-                label = "CDC_ACM_0";
-        };
+zephyr_udc0: &usb1 {
+	status = "okay";
 };
-
-&can3
+&flexcan3 {
+	pinctrl-0 = <&pinmux_flexcan3>;
+	pinctrl-names = "default";
+};

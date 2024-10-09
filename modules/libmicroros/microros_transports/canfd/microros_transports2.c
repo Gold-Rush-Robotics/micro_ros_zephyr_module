@@ -65,63 +65,36 @@ static void uart_fifo_callback(const struct device *dev, void * user_data){
 
 bool zephyr_transport_open(struct uxrCustomTransport * transport){
     zephyr_transport_params_t * params = (zephyr_transport_params_t*) transport->args;
+    const struct device *dev = DEVICE_DT_GET(CANBUS_NODE);
+	struct k_sem tx_queue_sem;
+	struct can_frame frame = {0};
+	int err;
 
-    int ret;
-    uint32_t baudrate, dtr = 0U;
+	k_sem_init(&tx_queue_sem, CONFIG_SAMPLE_CAN_BABBLING_TX_QUEUE_SIZE,
+		   CONFIG_SAMPLE_CAN_BABBLING_TX_QUEUE_SIZE);
 
+	if (!device_is_ready(dev)) {
+		printk("CAN device not ready");
+		return 0;
+	}
 
-    params->uart_dev = device_get_binding("CDC_ACM_0");
-    if (!params->uart_dev) {
-        printk("CDC ACM device not found\n");
-        return false;
+	if (IS_ENABLED(CONFIG_SAMPLE_CAN_BABBLING_FD_MODE)) {
+		err = can_set_mode(dev, CAN_MODE_FD);
+		if (err != 0) {
+			printk("Error setting CAN FD mode (err %d)", err);
+			return 0;
+		}
+	}
+
+	err = can_start(dev);
+	if (err != 0) {
+		printk("Error starting CAN controller (err %d)", err);
+		return 0;
+	}
+    else{
+        printk("CAN controller started");
     }
 
-    ret = usb_enable(NULL);
-    if (ret != 0) {
-        printk("Failed to enable USB\n");
-        return false;
-    }
-
-    ring_buf_init(&out_ringbuf, sizeof(uart_out_buffer), uart_out_buffer);
-    ring_buf_init(&in_ringbuf, sizeof(uart_in_buffer), uart_out_buffer);
-
-    printk("Waiting for agent connection\n");
-
-    while (true) {
-        uart_line_ctrl_get(params->uart_dev, UART_LINE_CTRL_DTR, &dtr);
-        if (dtr) {
-            break;
-        } else {
-            /* Give CPU resources to low priority threads. */
-            k_sleep(K_MSEC(100));
-        }
-    }
-
-    printk("Serial port connected!\n");
-
-    /* They are optional, we use them to test the interrupt endpoint */
-    ret = uart_line_ctrl_set(params->uart_dev, UART_LINE_CTRL_DCD, 1);
-    if (ret) {
-        printk("Failed to set DCD, ret code %d\n", ret);
-    }
-
-    ret = uart_line_ctrl_set(params->uart_dev, UART_LINE_CTRL_DSR, 1);
-    if (ret) {
-        printk("Failed to set DSR, ret code %d\n", ret);
-    }
-
-    /* Wait 1 sec for the host to do all settings */
-    k_busy_wait(1000*1000);
-
-    ret = uart_line_ctrl_get(params->uart_dev, UART_LINE_CTRL_BAUD_RATE, &baudrate);
-    if (ret) {
-        printk("Failed to get baudrate, ret code %d\n", ret);
-    }
-
-    uart_irq_callback_set(params->uart_dev, uart_fifo_callback);
-
-    /* Enable rx interrupts */
-    uart_irq_rx_enable(params->uart_dev);
 
     return true;
 }

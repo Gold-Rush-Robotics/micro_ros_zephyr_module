@@ -16,66 +16,45 @@ if MICROROS
     choice
         prompt "micro-ROS transport"
         
-        config MICROROS_TRANSPORT_SERIAL
-            bool "micro-ROS serial transport"
-            select RING_BUFFER
-        config MICROROS_TRANSPORT_SERIAL_USB
-            bool "micro-ROS USB serial transport"
-             select RING_BUFFER
-             select USB_DEVICE_STACK
-        config MICROROS_TRANSPORT_UDP
-            bool "micro-ROS UDP network transport"
+        config MICROROS_TRANSPORT_CANFD
+            bool "micro-ROS canfd transport"
+            select CAN
         
     endchoice
 
-    if MICROROS_TRANSPORT_UDP
-        config MICROROS_AGENT_IP
-            string "micro-ROS Agent IP"
-            default "192.168.1.100"
+    if MICROROS_TRANSPORT_CANFD
+
+        config SAMPLE_CAN_BABBLING_CAN_ID
+            hex "CAN ID"
+            default 0x010
+            range 0x000 0x7ff if !SAMPLE_CAN_BABBLING_EXT_ID
+            range 0x00000000 0x1fffffff if SAMPLE_CAN_BABBLING_EXT_ID
             help
-                micro-ROS Agent IP.
+            Babbling node CAN ID.
         
-        config MICROROS_AGENT_PORT
-            string "micro-ROS Agent Port"
-            default "8888"
+        config SAMPLE_CAN_BABBLING_EXT_ID
+            bool "Use Extended (29-bit) CAN ID"
             help
-                micro-ROS Agent port.
-
-        menu "WiFi Configuration"
-
-            config MICROROS_WIFI_SSID
-                string "WiFi SSID"
-                default "myssid"
-                help
-                    SSID (network name) for the example to connect to.
+            Babling node sends extended (29-bit) CAN ID frames.
         
-            config MICROROS_WIFI_PASSWORD
-                string "WiFi Password"
-                default "mypassword"
-                help
-                    WiFi password (WPA or WPA2) for the example to use.
-        endmenu
-    endif
-
-    if MICROROS_TRANSPORT_SERIAL
-        config MICROROS_SERIAL_PORT
-            string "micro-ROS Agent serial port"
-            default "1"
+        config SAMPLE_CAN_BABBLING_RTR
+            bool "Send Remote Transmit Request (RTR) frames"
             help
-                micro-ROS Agent IP.
-    endif
-
-    if MICROROS_TRANSPORT_SERIAL_USB
-        config USB_CDC_ACM
-            bool 
-            default y
-        config USB_CDC_ACM_RINGBUF_SIZE
-            int "USB-CDC-ACM Ringbuffer size"
-            default "2048"
-        config USB_DEVICE_PRODUCT
-            string "USB Device Product"
-            default "Zephyr micro-ROS"
-
+            Babbling node sends Remote Transmission Request (RTR) frames.
+        
+        config SAMPLE_CAN_BABBLING_FD_MODE
+            bool "Send CAN FD format frames"
+            select CAN_FD_MODE
+            help
+            Babbling node sends CAN FD format frames.
+        
+        config SAMPLE_CAN_BABBLING_TX_QUEUE_SIZE
+            int "Maximum number of CAN frames to enqueue"
+            default 3
+            range 1 3
+            help
+            Maximum number of CAN frames to enqueue for transmission.
+        
     endif
     config MICROROS_NODES
         string "available micro-ROS nodes"
