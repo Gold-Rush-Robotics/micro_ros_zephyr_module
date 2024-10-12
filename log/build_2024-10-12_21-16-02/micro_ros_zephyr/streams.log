@@ -1,0 +1,21 @@
+[0.006s] Invoking command in '/home/user/zephyrproject/zephyr/zephyr_ws/micro_ros_zephyr_module/build/micro_ros_zephyr': /usr/bin/cmake /home/user/zephyrproject/zephyr/zephyr_ws/micro_ros_zephyr_module -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/user/zephyrproject/zephyr/zephyr_ws/micro_ros_zephyr_module/install/micro_ros_zephyr
+[0.012s] [0mLoading Zephyr default modules (Zephyr repository).[0m
+[0.012s] -- Application: /home/user/zephyrproject/zephyr/zephyr_ws/micro_ros_zephyr_module
+[0.012s] -- CMake version: 3.30.2
+[0.138s] -- Found Python3: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3.8") found components: Interpreter
+[0.151s] -- Cache files will be written to: /root/.cache/zephyr
+[0.155s] -- Zephyr version: 3.7.0-rc3 (/home/user/zephyrproject/zephyr)
+[0.173s] -- Found west (found suitable version "1.2.0", minimum required is "0.14.0")
+[0.471s] [31mCMake Error at /home/user/zephyrproject/zephyr/cmake/modules/extensions.cmake:3352 (message):
+[0.471s]   BOARD is not being defined on the CMake command-line, in the environment or
+[0.471s]   by the app.
+[0.471s] Call Stack (most recent call first):
+[0.471s]   /home/user/zephyrproject/zephyr/cmake/modules/boards.cmake:61 (zephyr_check_cache)
+[0.471s]   /home/user/zephyrproject/zephyr/cmake/modules/zephyr_default.cmake:132 (include)
+[0.471s]   /home/user/zephyrproject/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:66 (include)
+[0.471s]   /home/user/zephyrproject/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:117 (include_boilerplate)
+[0.471s]   CMakeLists.txt:7 (find_package)
+[0.471s] 
+[0.471s] [0m
+[0.471s] -- Configuring incomplete, errors occurred!
+[0.472s] Invoked command in '/home/user/zephyrproject/zephyr/zephyr_ws/micro_ros_zephyr_module/build/micro_ros_zephyr' returned '1': /usr/bin/cmake /home/user/zephyrproject/zephyr/zephyr_ws/micro_ros_zephyr_module -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/user/zephyrproject/zephyr/zephyr_ws/micro_ros_zephyr_module/install/micro_ros_zephyr

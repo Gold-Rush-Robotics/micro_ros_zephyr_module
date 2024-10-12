@@ -94,6 +94,5 @@ if MICROROS
     config MICROROS_XRCE_DDS_HISTORIC
         string "micro-ROS middleware memory slots"
         default "4"  
-
 endif
 

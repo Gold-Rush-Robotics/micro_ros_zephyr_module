@@ -1,0 +1,19 @@
+[0mLoading Zephyr default modules (Zephyr repository).[0m
+-- Application: /home/user/zephyrproject/zephyr/zephyr_ws/micro_ros_zephyr_module
+-- CMake version: 3.30.2
+-- Found Python3: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3.8") found components: Interpreter
+-- Cache files will be written to: /root/.cache/zephyr
+-- Zephyr version: 3.7.0-rc3 (/home/user/zephyrproject/zephyr)
+-- Found west (found suitable version "1.2.0", minimum required is "0.14.0")
+[31mCMake Error at /home/user/zephyrproject/zephyr/cmake/modules/extensions.cmake:3352 (message):
+  BOARD is not being defined on the CMake command-line, in the environment or
+  by the app.
+Call Stack (most recent call first):
+  /home/user/zephyrproject/zephyr/cmake/modules/boards.cmake:61 (zephyr_check_cache)
+  /home/user/zephyrproject/zephyr/cmake/modules/zephyr_default.cmake:132 (include)
+  /home/user/zephyrproject/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:66 (include)
+  /home/user/zephyrproject/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:117 (include_boilerplate)
+  CMakeLists.txt:7 (find_package)
+
+[0m
+-- Configuring incomplete, errors occurred!
