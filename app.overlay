@@ -1,7 +1,3 @@
-zephyr_udc0: &usb1 {
-	status = "okay";
-};
 &flexcan3 {
-	pinctrl-0 = <&pinmux_flexcan3>;
-	pinctrl-names = "default";
+	status = "okay";
 };

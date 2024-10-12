@@ -24,36 +24,43 @@ if MICROROS
 
     if MICROROS_TRANSPORT_CANFD
 
-        config SAMPLE_CAN_BABBLING_CAN_ID
-            hex "CAN ID"
-            default 0x010
-            range 0x000 0x7ff if !SAMPLE_CAN_BABBLING_EXT_ID
-            range 0x00000000 0x1fffffff if SAMPLE_CAN_BABBLING_EXT_ID
+        config CAN_FD_MODE
+            bool "CAN-FD"
+            default y
+            depends on CAN_HAS_CANFD && CAN
             help
-            Babbling node CAN ID.
-        
-        config SAMPLE_CAN_BABBLING_EXT_ID
-            bool "Use Extended (29-bit) CAN ID"
+                Enable CAN-FD compatible API
+        config CANFD_MAX_DLC
+            int "Max data length code in CAN frames"
+            range 8 15
+            default 15
+            depends on CAN_FD_MODE && CAN
             help
-            Babling node sends extended (29-bit) CAN ID frames.
-        
-        config SAMPLE_CAN_BABBLING_RTR
-            bool "Send Remote Transmit Request (RTR) frames"
+                Maximum allowed DLC in a CAN frame. This parameter sets the
+                data buffer size in a CAN frame and is therefore only used to
+                optimize memory consumption.
+        config CAN_HAS_CANFD
+            bool
+            depends on CAN
             help
-            Babbling node sends Remote Transmission Request (RTR) frames.
-        
-        config SAMPLE_CAN_BABBLING_FD_MODE
-            bool "Send CAN FD format frames"
-            select CAN_FD_MODE
-            help
-            Babbling node sends CAN FD format frames.
-        
-        config SAMPLE_CAN_BABBLING_TX_QUEUE_SIZE
+                driver supports CAN-FD
+        config CAN_TX_QUEUE_SIZE
             int "Maximum number of CAN frames to enqueue"
             default 3
             range 1 3
             help
-            Maximum number of CAN frames to enqueue for transmission.
+	            Maximum number of CAN frames to enqueue for transmission.
+
+        config CANFD_BITRATE_DATA
+            int "Max bitrate for canfd"
+            default 1000000
+            range 50000 5000000
+
+        config CANFD_BITRATE
+            int "Max dbitrate for canfd"
+            default 2000000
+            range 50000 8000000
+
         
     endif
     config MICROROS_NODES

@@ -15,27 +15,29 @@
 #ifndef _MICROROS_CLIENT_ZEPHYR_TRANSPORT_H_
 #define _MICROROS_CLIENT_ZEPHYR_TRANSPORT_H_
 
-#include <unistd.h>
-#include <version.h>
+#include <uxr/client/transport.h>
+#include <microros_transports.h>
 
-#if ZEPHYR_VERSION_CODE >= ZEPHYR_VERSION(3,1,0)
 #include <zephyr/device.h>
-#else
-#include <device.h>
-#endif
+#include <zephyr/devicetree.h>
+#include <zephyr/drivers/can.h>
+#include <zephyr/kernel.h>
 
+
+#include <unistd.h>
+#define CANBUS_NODE DT_NODELABEL(flexcan3)
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
 typedef struct {
-    size_t fd;
-    const struct device * uart_dev;
+    const struct device *dev;
 } zephyr_transport_params_t;
 
 #define MICRO_ROS_FRAMING_REQUIRED true
-volatile static zephyr_transport_params_t default_params = {.fd = 1};
+volatile static zephyr_transport_params_t default_params;
+// const struct device *dev = DEVICE_DT_GET(CANBUS_NODE);
 
 bool zephyr_transport_open(struct uxrCustomTransport * transport);
 bool zephyr_transport_close(struct uxrCustomTransport * transport);
