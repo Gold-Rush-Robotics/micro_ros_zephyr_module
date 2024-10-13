@@ -1,3 +1,4 @@
 &flexcan3 {
 	status = "okay";
+	bus-speed = <1000000>;	
 };

@@ -50,7 +50,7 @@ bool zephyr_transport_close(struct uxrCustomTransport * transport){
 size_t zephyr_transport_write(struct uxrCustomTransport* transport, const uint8_t * buf, size_t len, uint8_t * err){
     zephyr_transport_params_t * params = (zephyr_transport_params_t*) transport->args;
     struct can_frame frame = {
-        .flags = 0,
+//        .flags = 0,
         .id = 0x123,
         .dlc = 8,
         .data = {1,2,3,4,5,6,7,8}
