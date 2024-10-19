@@ -1,0 +1,14 @@
+sample:
+  name: microros zephyr module
+  description: Hello world example
+tests:
+  src/main
+    build_only: true
+    tags: tests
+    min_ram: 16
+  sample.basic.hello_world.singlethread:
+    build_only: true
+    extra_args: CONF_FILE=prj_single.conf
+    filter: not CONFIG_BT
+    tags: tests
+    min_ram: 16

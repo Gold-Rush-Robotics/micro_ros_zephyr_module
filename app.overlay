@@ -1,3 +1,15 @@
+/{
+chosen{
+	zephyr,memory-region=&ocram;
+	zephyr,sram=&ocram2;
+	zephyr,canbus = &flexcan3;
+	zephyr,console = &lpuart6; /* Teensy Pins 0(RX1) 1(TX1) */
+};
+};
+&lpuart6 {
+	status = "okay";
+	current-speed = < 115200 >;
+};
 &flexcan3 {
 	status = "okay";
 };

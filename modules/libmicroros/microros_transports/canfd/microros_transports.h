@@ -32,6 +32,7 @@ extern "C"
 #endif
 
 typedef struct {
+    size_t fd;
     const struct device *dev;
 } zephyr_transport_params_t;
 

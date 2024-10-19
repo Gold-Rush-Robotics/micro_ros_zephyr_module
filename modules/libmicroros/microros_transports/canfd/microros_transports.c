@@ -10,17 +10,21 @@ bool zephyr_transport_open(struct uxrCustomTransport * transport){
 
 	k_sem_init(&tx_queue_sem, CONFIG_CAN_TX_QUEUE_SIZE,
 		   CONFIG_CAN_TX_QUEUE_SIZE);
+    printk("Set speed");
 
 	if (!device_is_ready(params->dev)) {
+        printk("device is not ready");
 		return 0;
 	}
 
     err = can_set_mode(params->dev, true);
     if (err != 0) {
+        printk("can mode not set");
         return 0;
     }
     err = can_set_bitrate(params->dev, CONFIG_CANFD_BITRATE);
     if (err != 0) {
+        printk("can bitrate not set");
         return 0;
     }
     // err = can_set_bitrate_data(params->dev, CONFIG_CANFD_BITRATE_DATA);
@@ -31,13 +35,13 @@ bool zephyr_transport_open(struct uxrCustomTransport * transport){
 
 	err = can_start(params->dev);
 	if (err != 0) {
+        printk("can not started");
 		return 0;
 	}
     else{
+        printk("can started");
     }
-
-
-    return true;
+    printk("can started");
     return true;
 }
 
@@ -49,6 +53,7 @@ bool zephyr_transport_close(struct uxrCustomTransport * transport){
 
 size_t zephyr_transport_write(struct uxrCustomTransport* transport, const uint8_t * buf, size_t len, uint8_t * err){
     zephyr_transport_params_t * params = (zephyr_transport_params_t*) transport->args;
+    printk("can sending");
     struct can_frame frame = {
         .flags = 0,
         .id = 0x123,
