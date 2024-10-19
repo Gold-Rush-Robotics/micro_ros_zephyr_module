@@ -1,0 +1,4 @@
+west:
+  command: /usr/local/bin/west build
+  topdir: /home/user/zephyrproject
+  version: 1.2.0
