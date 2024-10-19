@@ -2,6 +2,7 @@
 #include <microros_transports.h>
 #include <stdio.h>
 
+
 bool zephyr_transport_open(struct uxrCustomTransport * transport){
 	zephyr_transport_params_t * params = (zephyr_transport_params_t*) transport->args;
 	struct k_sem tx_queue_sem;
@@ -70,26 +71,36 @@ size_t zephyr_transport_write(struct uxrCustomTransport* transport, const uint8_
     if (ret != 0) {
         if (err) {
             *err = ret;
+            printf("failed to send");
         }
         return 0;
     }
     return frame.dlc;
 }
+CAN_MSGQ_DEFINE(my_can_msgq, 2);
 
 size_t zephyr_transport_read(struct uxrCustomTransport* transport, uint8_t* buf, size_t len, int timeout, uint8_t* err) {
+    zephyr_transport_params_t * params = (zephyr_transport_params_t*) transport->args;
+
     printf("Attmepting to read \n");
-    // zephyr_transport_params_t * params = (zephyr_transport_params_t*) transport->args;
-    // struct can_frame frame;
-    // int ret = can_recv(params->dev, &frame, K_MSEC(timeout), NULL);
+    const struct can_filter my_filter = {
+        .flags = 0,
+        .id = 0x124,
+    };
+    printf("created mask");
+    struct can_frame rx_frame;
+    int filter_id;
+    printf("initialized frame");
 
-    // if (ret != 0) {
-    //     if (err) {
-    //         *err = ret;
-    //     }
-    //     return 0;
-    // }
-
-    // size_t bytes_to_copy = len < frame.dlc ? len : frame.dlc;
-    // memcpy(buf, frame.data, bytes_to_copy);
-    return 8;
+    filter_id = can_add_rx_filter_msgq(params->dev, &my_can_msgq, &my_filter);
+    printf("created filter id");
+    if (filter_id < 0) {
+        printf("Unable to add rx msgq [%d]", filter_id);
+    return 0;
+    }
+    else{
+        printf("successfully set rx");
+    }
+    k_msgq_get(&my_can_msgq, &rx_frame, K_FOREVER);
+    return &rx_frame.dlc;
 }
