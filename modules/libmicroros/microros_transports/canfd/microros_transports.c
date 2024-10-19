@@ -69,11 +69,11 @@ size_t zephyr_transport_write(struct uxrCustomTransport* transport, const uint8_
 
     int ret = can_send(params->dev, &frame, K_MSEC(100), NULL, NULL);
     if (ret != 0) {
-        if (err) {
-            *err = ret;
-            printf("failed to send");
-        }
+        printf("failed to send \n" );
         return 0;
+    }
+    else{
+        printf("successfully sent \n");
     }
     return frame.dlc;
 }
